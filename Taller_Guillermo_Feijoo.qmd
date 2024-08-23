@@ -6,11 +6,12 @@ format: docx
 editor: visual
 ---
 
-## Parte 1: Identificación y Reflexión sobre las Amenidades de Salud
+## Parte 1: Identificación y Reflexión sobre las Amenidades de Salud 
 
 #### Primero obtengo los datos de hospitales de OSM
 
-Para obtener los datos de los hospitales, se utiliza osmdata. Se define la zona de interés y se especifica que se desean puntos de interés con la etiqueta "amenity=hospital". Los datos se descargan y se almacenan como un objeto sf.
+Para comenzar, utiliza OpenStreetMap para identificar todas las amenidades de salud disponibles, como
+hospitales y clínicas
 
 ```{r, echo=FALSE,message=FALSE}
 #Librerías
@@ -34,7 +35,6 @@ puntos <- query$osm_points
 
 #### Cargar y filtrar los datos de sectores censales
 
-Se cargan las capas de la geodatabase y se selecciona la capa correspondiente a las zonas censales. Luego, se filtran los datos para seleccionar únicamente los sectores censales de interés. Para hacer esto, primero se utiliza la función `st_layers` para listar todas las capas disponibles en la geodatabase. Después, se usa `st_read` para leer la capa específica que contiene los datos de los sectores censales.
 
 ```{r, echo=FALSE,message=FALSE}
 # capas disponibles en la geodatabase
@@ -90,6 +90,9 @@ dpa <- read_excel("./CODIFICACIÓN_2024.xlsx", sheet = "CODIGOS")
 
 ### Parte 2: Unión de polígonos de zonas censales a nivel de parroquias
 
+Después de identificar las amenidades de salud, realiza la unión de los polígonos de las zonas censales a
+nivel de parroquia
+
 ```{r, echo=FALSE, message=FALSE}
 #Unión de los datos de población con dpa
 poblacion <- poblacion %>% 
@@ -98,7 +101,7 @@ poblacion <- poblacion %>%
                       "parroquia"="DPA_DESPAR"))
 ```
 
-#### Unión de los poligonos a nivel de parroquia por que estan a nivel de zona censal
+#### Unión de los poligonos a nivel de parroquia
 
 ```{r, echo=FALSE, message=FALSE}
 zonas <- zonas %>% 
@@ -131,9 +134,8 @@ parroquias %>%
 
 ### Parte 3: Cálculo del número total de amenidades
 
-#### Contar el número de hospitales en cada sector censal
-
-Se transforman las coordenadas de los puntos de los hospitales para que coincidan con el sistema de referencia de las zonas censales. A continuación, se realiza una unión espacial utilizando `st_join` para contar cuántos hospitales se encuentran dentro de cada sector censal. Esta información de conteo se añade a los datos de los sectores censales.
+Con la información de las parroquias y las amenidades de salud identificadas, realizarás una unión espacial
+para determinar cuántas amenidades se encuentran dentro de cada parroquia
 
 ```{r, echo=FALSE, message=FALSE}
 # Transformación de las coordenadas de los hospitales al mismo CRS que zonas
@@ -183,7 +185,7 @@ frec_plot <- parroquias %>%
 frec_plot
 ```
 
-Se crea un histograma para visualizar la distribución del indicador. Esto nos da una idea de cómo están distribuidos estos valores en nuestra base de datos.
+Se crea histograma para visualizar la distribución del indicador. Esto nos da una idea de cómo están distribuidos estos valores en nuestra base de datos.
 
 ```{r, echo=FALSE, message=FALSE}
 parroquias_ <- parroquias %>% 
@@ -415,7 +417,5 @@ ggplot(dmq) +
   theme_minimal() +
   ggtitle("Fig 11.Zoom sobre mi casa")
 ```
-
-![](images/Screenshot_2.jpg){fig-alt="Fig 12. Mi casa (Google Maps)" fig-align="center"}
 
 Como se puede observar alrededor de mi casa existen hospitales, sin embargo la distancia varia y podría no estar considerada en la Figura 11. Zoom sobre mi casa y su Amenidad.
