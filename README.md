@@ -69,11 +69,3 @@ Este proyecto realiza un análisis espacial de las amenidades de salud, específ
 ## Reflexiones y Limitaciones
 
 El análisis revela que la distribución de hospitales en Latacunga no es aleatoria y está influenciada por patrones espaciales específicos. Se destaca la importancia de considerar la proximidad y accesibilidad en la planificación de infraestructuras de salud.
-
-## Contribuciones
-
-Este proyecto fue desarrollado por **Guillermo Feijó** como parte de un taller de análisis espacial en Ecuador. Se agradece la colaboración de todos los participantes y las fuentes de datos públicas utilizadas.
-
-## Licencia
-
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
