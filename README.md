@@ -1,47 +1,41 @@
-# Taller_Espacial_de_Amenidades
-Taller Espacial de Amenidades de Salud en parroquias de Ecuador
+Taller Espacial de Amenidades de Salud en Parroquias de Ecuador
+Descripción del Proyecto
+Este proyecto tiene como objetivo realizar un análisis espacial de la distribución de amenidades de salud, específicamente hospitales, en la provincia de Latacunga, Cotopaxi, Ecuador. Se analiza la distribución espacial de estas amenidades en relación con la población en las parroquias y sectores censales de la región. Además, se calcula el índice de Moran para evaluar la autocorrelación espacial de las amenidades de salud.
 
-Parte 1: Identificación y Reflexión sobre las Amenidades de Salud
-1. Obtención de datos de hospitales de OpenStreetMap (OSM):
+Estructura del Proyecto
+Parte 1: Identificación y reflexión sobre las amenidades de salud en Latacunga-Cotopaxi.
+Parte 2: Unión de polígonos de zonas censales a nivel de parroquias.
+Parte 3: Cálculo del número total de amenidades.
+Parte 4: Cálculo del ratio de amenidades por habitante.
+Parte 5: Cálculo del índice de Moran para el indicador de amenidades de salud.
+Parte 6: Actividad opcional de análisis de buffers y reflexión sobre los límites de OpenStreetMap.
+Requisitos
+Para ejecutar el código en este proyecto, es necesario tener instalado R y las siguientes librerías:
 
-Para la identificación de amenidades de salud, se obtuvieron datos de hospitales usando la librería osmdata. Se definió una zona de interés en Ecuador, y se buscaron puntos de interés etiquetados como amenity=hospital. Estos datos fueron descargados y almacenados en un objeto sf.
+osmdata: Para obtener datos de OpenStreetMap.
+sf: Para trabajar con datos espaciales.
+tidyverse: Para manipulación y visualización de datos.
+readxl: Para leer archivos de Excel.
+spdep: Para análisis espacial, incluyendo el cálculo del índice de Moran.
+lattice: Para la visualización de la matriz de pesos espaciales.
+httr2: Para realizar solicitudes HTTP.
 
-2. Carga y filtrado de datos de sectores censales:
+Archivos Necesarios
+GEODATABASE_NACIONAL_2021.gdb: Base de datos geoespacial que contiene los polígonos de las zonas censales.
+01_2022_CPV_Estructura_poblacional.xlsx: Contiene la estructura poblacional para las parroquias.
+CODIFICACIÓN_2024.xlsx: Archivo de codificación utilizado para unir la información de población con las zonas censales.
+Ejecución del Código
+El código está diseñado para ser ejecutado en un entorno R Markdown, con salida en formato DOCX. Puedes ejecutar cada bloque de código secuencialmente desde un archivo .Rmd.
 
-Se cargaron las capas de la geodatabase nacional para seleccionar las zonas censales de interés. Primero, se utilizó st_layers para listar todas las capas disponibles y luego se leyó la capa específica de zonas censales usando st_read. El enfoque principal fue en la capa zon_a que contiene 5888 features con geometría de tipo MULTIPOLYGON en el sistema de referencia WGS 84 / UTM zona 17S.
+Carga de Librerías: El primer bloque de código carga las librerías necesarias y define la zona de interés (Latacunga).
+Consulta de OpenStreetMap: Se obtienen los puntos de los hospitales en la zona de interés.
+Procesamiento de Datos: Se cargan y procesan los datos de población y se unen con las zonas censales.
+Visualización: Se crean mapas para visualizar la distribución de hospitales y densidad poblacional.
+Análisis Espacial: Se calcula el índice de Moran para evaluar la autocorrelación espacial de las amenidades de salud.
+Buffer y Análisis Opcional: Se analiza la proximidad de los hospitales a un punto de interés definido por el usuario.
+Resultados Esperados
+El análisis permite identificar patrones de distribución de los hospitales en la provincia de Latacunga, Cotopaxi, y evaluar la accesibilidad a estos servicios de salud mediante el cálculo del ratio de amenidades por habitante y el índice de Moran. Adicionalmente, se exploran las limitaciones de la cobertura geográfica usando buffers alrededor de un punto de interés.
 
-3. Visualización de los hospitales en un mapa:
-
-Se generó un mapa para mostrar la ubicación de los hospitales extraídos de OSM dentro de la zona de estudio.
-
-Parte 2: Unión de Polígonos de Zonas Censales a Nivel de Parroquias
-1. Agrupación de datos por parroquia:
-
-Dado que los datos estaban a nivel de zona censal, se unieron los polígonos para agruparlos a nivel de parroquias. Posteriormente, se unieron estos datos con la información demográfica obtenida previamente.
-
-2. Mapas de calor:
-
-Se crearon mapas de calor para visualizar la distribución espacial de la población y las amenidades de salud.
-
-Parte 3: Cálculo del Número Total de Amenidades
-1. Conteo de hospitales en cada sector censal:
-
-Los puntos de los hospitales fueron transformados al sistema de referencia de las zonas censales. A continuación, se utilizó st_join para realizar una unión espacial que permitiera contar el número de hospitales en cada sector censal. Esta información fue añadida a los datos de los sectores censales.
-
-Parte 4: Cálculo del Ratio de Amenidades por Habitante
-1. Cálculo del ratio:
-
-Se calculó el ratio de amenidades de salud (hospitales) por cada 1000 habitantes en las parroquias, proporcionando una medida de accesibilidad a los servicios de salud.
-
-Parte 5: Cálculo del Índice de Moran para el Indicador de Amenidades de Salud
-1. Evaluación de la autocorrelación espacial:
-
-Se utilizó el índice de Moran I para evaluar la autocorrelación espacial del indicador de amenidades de salud. El valor de Moran I obtenido fue 0.86, con un p-valor significativamente bajo, lo que indica una fuerte autocorrelación espacial.
-
-Conclusión:
-
-Existe una autocorrelación espacial significativa en la distribución de amenidades de salud por cada 1000 habitantes en Latacunga, lo que sugiere que estas amenidades están agrupadas en ciertas áreas. Este hallazgo tiene importantes implicaciones para las políticas de salud pública, sugiriendo que se deben implementar estrategias focalizadas para mejorar el acceso en zonas con menor cobertura.
-
-2. Análisis con matriz de distancia inversa:
-
-Se creó una matriz de pesos espaciales basada en la distancia inversa para analizar cómo varía el índice de Moran I al aplicar diferentes criterios de vecindad. Este análisis confirmó la existencia de agrupamientos espaciales en la distribución de amenidades de salud.
+Notas y Consideraciones
+Precisión de los Datos: Los resultados dependen de la calidad y precisión de los datos obtenidos de OpenStreetMap y los archivos geoespaciales utilizados.
+Limitaciones: Los análisis de buffers y la cobertura de amenidades pueden variar dependiendo de la exactitud de los datos de coordenadas y la proyección geográfica utilizada.
